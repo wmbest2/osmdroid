@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1134/trunk/osmdroid-android/src/main/java/org/osmdroid/views/safecanvas
+END
+ISafeCanvas.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1130/trunk/osmdroid-android/src/main/java/org/osmdroid/views/safecanvas/ISafeCanvas.java
+END
+SafeDashPathEffect.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1130/trunk/osmdroid-android/src/main/java/org/osmdroid/views/safecanvas/SafeDashPathEffect.java
+END
+SafePaint.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1130/trunk/osmdroid-android/src/main/java/org/osmdroid/views/safecanvas/SafePaint.java
+END
+SafeTranslatedCanvas.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1134/trunk/osmdroid-android/src/main/java/org/osmdroid/views/safecanvas/SafeTranslatedCanvas.java
+END
+SafeTranslatedPath.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1130/trunk/osmdroid-android/src/main/java/org/osmdroid/views/safecanvas/SafeTranslatedPath.java
+END

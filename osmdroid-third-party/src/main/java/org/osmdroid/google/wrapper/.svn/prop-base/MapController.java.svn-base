@@ -1,0 +1,9 @@
+K 13
+svn:mergeinfo
+V 501
+/branches/issue-43-jar/osmdroid-google/src/org/osmdroid/google/MapController.java:194-224
+/branches/issue-43-no-service/osmdroid-google/src/org/osmdroid/google/MapController.java:175-192
+/branches/issue-81-renderer-as-interface/osmdroid-google/src/org/osmdroid/google/MapController.java:328-353
+/branches/maven/osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/MapController.java:1040-1044
+/branches/release_3_0_4/osmdroid-google/src/org/osmdroid/google/wrapper/MapController.java:929-931
+END

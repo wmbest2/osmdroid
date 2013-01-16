@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1083/trunk/osmdroid-third-party/src/main/java/org/osmdroid/mapsforge/wrapper
+END
+MapController.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1083/trunk/osmdroid-third-party/src/main/java/org/osmdroid/mapsforge/wrapper/MapController.java
+END
+GeoPoint.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1083/trunk/osmdroid-third-party/src/main/java/org/osmdroid/mapsforge/wrapper/GeoPoint.java
+END
+MapView.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1083/trunk/osmdroid-third-party/src/main/java/org/osmdroid/mapsforge/wrapper/MapView.java
+END
+Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1083/trunk/osmdroid-third-party/src/main/java/org/osmdroid/mapsforge/wrapper/Projection.java
+END

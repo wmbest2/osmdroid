@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 60
+.settings
+MANIFEST.MF
+bin
+osmdroid-third-party-*.jar
+target
+
+END

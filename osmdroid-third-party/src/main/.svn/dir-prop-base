@@ -1,0 +1,9 @@
+K 13
+svn:mergeinfo
+V 309
+/branches/issue-43-jar/osmdroid-third-party/main:194-224
+/branches/issue-43-no-service/osmdroid-third-party/main:175-192
+/branches/issue-81-renderer-as-interface/osmdroid-third-party/main:328-353
+/branches/maven/osmdroid-third-party/src/main:1040-1044
+/branches/release_3_0_4/osmdroid-third-party/main:929-931
+END

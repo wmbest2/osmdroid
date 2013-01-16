@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1141/trunk/osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation
+END
+IMyLocationProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1138/trunk/osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation/IMyLocationProvider.java
+END
+GpsMyLocationProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/1138/trunk/osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java
+END
+IMyLocationConsumer.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1138/trunk/osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation/IMyLocationConsumer.java
+END
+MyLocationNewOverlay.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/1141/trunk/osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation/MyLocationNewOverlay.java
+END
