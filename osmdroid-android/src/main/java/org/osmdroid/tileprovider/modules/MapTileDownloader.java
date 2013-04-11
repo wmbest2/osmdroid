@@ -38,205 +38,210 @@ import android.text.TextUtils;
  */
 public class MapTileDownloader extends MapTileModuleProviderBase {
 
-	// ===========================================================
-	// Constants
-	// ===========================================================
+        // ===========================================================
+        // Constants
+        // ===========================================================
 
-	private static final Logger logger = LoggerFactory.getLogger(MapTileDownloader.class);
+        private static final Logger logger = LoggerFactory.getLogger(MapTileDownloader.class);
 
-	// ===========================================================
-	// Fields
-	// ===========================================================
+        // ===========================================================
+        // Fields
+        // ===========================================================
 
-	private final IFilesystemCache mFilesystemCache;
+        private final IFilesystemCache mFilesystemCache;
 
-	private OnlineTileSourceBase mTileSource;
+        private OnlineTileSourceBase mTileSource;
 
-	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
+        private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
-	// ===========================================================
-	// Constructors
-	// ===========================================================
+        // ===========================================================
+        // Constructors
+        // ===========================================================
 
-	public MapTileDownloader(final ITileSource pTileSource) {
-		this(pTileSource, null, null);
-	}
+        public MapTileDownloader(final ITileSource pTileSource) {
+                this(pTileSource, null, null);
+        }
 
-	public MapTileDownloader(final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
-		this(pTileSource, pFilesystemCache, null);
-	}
+        public MapTileDownloader(final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
+                this(pTileSource, pFilesystemCache, null);
+        }
 
-	public MapTileDownloader(final ITileSource pTileSource,
-			final IFilesystemCache pFilesystemCache,
-			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
-		this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
-				NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
-	}
+        public MapTileDownloader(final ITileSource pTileSource,
+                        final IFilesystemCache pFilesystemCache,
+                        final INetworkAvailablityCheck pNetworkAvailablityCheck) {
+                this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
+                                NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+        }
 
-	public MapTileDownloader(final ITileSource pTileSource,
-			final IFilesystemCache pFilesystemCache,
-			final INetworkAvailablityCheck pNetworkAvailablityCheck, int pThreadPoolSize,
-			int pPendingQueueSize) {
-		super(pThreadPoolSize, pPendingQueueSize);
+        public MapTileDownloader(final ITileSource pTileSource,
+                        final IFilesystemCache pFilesystemCache,
+                        final INetworkAvailablityCheck pNetworkAvailablityCheck, int pThreadPoolSize,
+                        int pPendingQueueSize) {
+                super(pThreadPoolSize, pPendingQueueSize);
 
-		mFilesystemCache = pFilesystemCache;
-		mNetworkAvailablityCheck = pNetworkAvailablityCheck;
-		setTileSource(pTileSource);
-	}
+                mFilesystemCache = pFilesystemCache;
+                mNetworkAvailablityCheck = pNetworkAvailablityCheck;
+                setTileSource(pTileSource);
+        }
 
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
+        // ===========================================================
+        // Getter & Setter
+        // ===========================================================
 
-	public ITileSource getTileSource() {
-		return mTileSource;
-	}
+        public ITileSource getTileSource() {
+                return mTileSource;
+        }
 
-	// ===========================================================
-	// Methods from SuperClass/Interfaces
-	// ===========================================================
+        // ===========================================================
+        // Methods from SuperClass/Interfaces
+        // ===========================================================
 
-	@Override
-	public boolean getUsesDataConnection() {
-		return true;
-	}
+        @Override
+        public boolean getUsesDataConnection() {
+                return true;
+        }
 
-	@Override
-	protected String getName() {
-		return "Online Tile Download Provider";
-	}
+        @Override
+        protected String getName() {
+                return "Online Tile Download Provider";
+        }
 
-	@Override
-	protected String getThreadGroupName() {
-		return "downloader";
-	}
+        @Override
+        protected String getThreadGroupName() {
+                return "downloader";
+        }
 
-	@Override
-	protected Runnable getTileLoader() {
-		return new TileLoader();
-	};
+        @Override
+        protected Runnable getTileLoader() {
+                return new TileLoader(mTileSource);
+        };
 
-	@Override
-	public int getMinimumZoomLevel() {
-		return (mTileSource != null ? mTileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
-	}
+        @Override
+        public int getMinimumZoomLevel() {
+                return (mTileSource != null ? mTileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
+        }
 
-	@Override
-	public int getMaximumZoomLevel() {
-		return (mTileSource != null ? mTileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
-	}
+        @Override
+        public int getMaximumZoomLevel() {
+                return (mTileSource != null ? mTileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
+        }
 
-	@Override
-	public void setTileSource(final ITileSource tileSource) {
-		// We are only interested in OnlineTileSourceBase tile sources
-		if (tileSource instanceof OnlineTileSourceBase) {
-			mTileSource = (OnlineTileSourceBase) tileSource;
-		} else {
-			// Otherwise shut down the tile downloader
-			mTileSource = null;
-		}
-	}
+        @Override
+        public void setTileSource(final ITileSource tileSource) {
+                // We are only interested in OnlineTileSourceBase tile sources
+                if (tileSource instanceof OnlineTileSourceBase) {
+                        mTileSource = (OnlineTileSourceBase) tileSource;
+                } else {
+                        // Otherwise shut down the tile downloader
+                        mTileSource = null;
+                }
+        }
 
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
+        // ===========================================================
+        // Inner and Anonymous Classes
+        // ===========================================================
 
-	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
+        private class TileLoader extends MapTileModuleProviderBase.TileLoader {
+                OnlineTileSourceBase mTS;
+                
+                public TileLoader(final OnlineTileSourceBase aTS) {
+                    mTS = aTS;
+                }
 
-		@Override
-		public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
+                @Override
+                public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
 
-			if (mTileSource == null) {
-				return null;
-			}
+                        if (mTS == null) {
+                                return null;
+                        }
 
-			InputStream in = null;
-			OutputStream out = null;
-			final MapTile tile = aState.getMapTile();
+                        InputStream in = null;
+                        OutputStream out = null;
+                        final MapTile tile = aState.getMapTile();
 
-			try {
+                        try {
 
-				if (mNetworkAvailablityCheck != null
-						&& !mNetworkAvailablityCheck.getNetworkAvailable()) {
-					if (DEBUGMODE) {
-						logger.debug("Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
-					}
-					return null;
-				}
+                                if (mNetworkAvailablityCheck != null
+                                                && !mNetworkAvailablityCheck.getNetworkAvailable()) {
+                                        if (DEBUGMODE) {
+                                                logger.debug("Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
+                                        }
+                                        return null;
+                                }
 
-				final String tileURLString = mTileSource.getTileURLString(tile);
+                                final String tileURLString = mTS.getTileURLString(tile);
 
-				if (DEBUGMODE) {
-					logger.debug("Downloading Maptile from url: " + tileURLString);
-				}
+                                if (DEBUGMODE) {
+                                        logger.debug("Downloading Maptile from url: " + tileURLString);
+                                }
 
-				if (TextUtils.isEmpty(tileURLString)) {
-					return null;
-				}
+                                if (TextUtils.isEmpty(tileURLString)) {
+                                        return null;
+                                }
 
-				final HttpClient client = new DefaultHttpClient();
-				final HttpUriRequest head = new HttpGet(tileURLString);
-				final HttpResponse response = client.execute(head);
+                                final HttpClient client = new DefaultHttpClient();
+                                final HttpUriRequest head = new HttpGet(tileURLString);
+                                final HttpResponse response = client.execute(head);
 
-				// Check to see if we got success
-				final org.apache.http.StatusLine line = response.getStatusLine();
-				if (line.getStatusCode() != 200) {
-					logger.warn("Problem downloading MapTile: " + tile + " HTTP response: " + line);
-					return null;
-				}
+                                // Check to see if we got success
+                                final org.apache.http.StatusLine line = response.getStatusLine();
+                                if (line.getStatusCode() != 200) {
+                                        logger.warn("Problem downloading MapTile: " + tile + " HTTP response: " + line);
+                                        return null;
+                                }
 
-				final HttpEntity entity = response.getEntity();
-				if (entity == null) {
-					logger.warn("No content downloading MapTile: " + tile);
-					return null;
-				}
-				in = entity.getContent();
+                                final HttpEntity entity = response.getEntity();
+                                if (entity == null) {
+                                        logger.warn("No content downloading MapTile: " + tile);
+                                        return null;
+                                }
+                                in = entity.getContent();
 
-				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-				StreamUtils.copy(in, out);
-				out.flush();
-				final byte[] data = dataStream.toByteArray();
-				final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+                                final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+                                out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
+                                StreamUtils.copy(in, out);
+                                out.flush();
+                                final byte[] data = dataStream.toByteArray();
+                                final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
-				// Save the data to the filesystem cache
-				if (mFilesystemCache != null) {
-					mFilesystemCache.saveFile(mTileSource, tile, byteStream);
-					byteStream.reset();
-				}
-				final Drawable result = mTileSource.getDrawable(byteStream);
+                                // Save the data to the filesystem cache
+                                if (mFilesystemCache != null) {
+                                        mFilesystemCache.saveFile(mTS, tile, byteStream);
+                                        byteStream.reset();
+                                }
+                                final Drawable result = mTS.getDrawable(byteStream);
 
-				return result;
-			} catch (final UnknownHostException e) {
-				// no network connection so empty the queue
-				logger.warn("UnknownHostException downloading MapTile: " + tile + " : " + e);
-				throw new CantContinueException(e);
-			} catch (final LowMemoryException e) {
-				// low memory so empty the queue
-				logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
-				throw new CantContinueException(e);
-			} catch (final FileNotFoundException e) {
-				logger.warn("Tile not found: " + tile + " : " + e);
-			} catch (final IOException e) {
-				logger.warn("IOException downloading MapTile: " + tile + " : " + e);
-			} catch (final Throwable e) {
-				logger.error("Error downloading MapTile: " + tile, e);
-			} finally {
-				StreamUtils.closeStream(in);
-				StreamUtils.closeStream(out);
-			}
+                                return result;
+                        } catch (final UnknownHostException e) {
+                                // no network connection so empty the queue
+                                logger.warn("UnknownHostException downloading MapTile: " + tile + " : " + e);
+                                throw new CantContinueException(e);
+                        } catch (final LowMemoryException e) {
+                                // low memory so empty the queue
+                                logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
+                                throw new CantContinueException(e);
+                        } catch (final FileNotFoundException e) {
+                                logger.warn("Tile not found: " + tile + " : " + e);
+                        } catch (final IOException e) {
+                                logger.warn("IOException downloading MapTile: " + tile + " : " + e);
+                        } catch (final Throwable e) {
+                                logger.error("Error downloading MapTile: " + tile, e);
+                        } finally {
+                                StreamUtils.closeStream(in);
+                                StreamUtils.closeStream(out);
+                        }
 
-			return null;
-		}
+                        return null;
+                }
 
-		@Override
-		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
-			removeTileFromQueues(pState.getMapTile());
-			// don't return the tile because we'll wait for the fs provider to ask for it
+                @Override
+                protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
+                        removeTileFromQueues(pState.getMapTile());
+                        // don't return the tile because we'll wait for the fs provider to ask for it
             // this prevent flickering when a load of delayed downloads complete for tiles
             // that we might not even be interested in any more
-			pState.getCallback().mapTileRequestCompleted(pState, null);
-		}
+                        pState.getCallback().mapTileRequestCompleted(pState, null);
+                }
 
-	}
+        }
 }
