@@ -18,3 +18,10 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+
+#OSMDroid
+.svn/
+osmdroid-android/target/
+GoogleWrapperSample/
+OpenStreetMapViewer/
+OSMMapTilePackager/
